@@ -1,0 +1,223 @@
+Pasted--Mobile-ready-YouTube-style-Mini-Movies-Web-Series-Mini-App-Tem-1758902901339_1758902901340.txt
+ঠিক আছে ভাই 👍
+
+আমি এখন তোমার জন্য Mobile-ready, YouTube-style Mini Movies / Web Series Mini App Template বানাচ্ছি, যেখানে সব ready:
+
+Home Screen → Thumbnail Grid (Drama, Mini Movies, Web Series)
+
+Pre-roll Ads → Skip after 25 sec
+
+Mid-roll Ads → প্রতি 10 মিনিট বা 15 মিনিটে, Skip after 25 sec
+
+Banner + Popunder Ads
+
+Video Auto Resume
+
+Mobile / Responsive Design
+
+Folder Structure
+miniapp/
+│
+├─ index.html           # Frontend Home + Video Player
+├─ ads_manager.js       # Pre-roll + Mid-roll + Skip Ads + Banner/Popunder
+├─ videos/              # Optional: hosted MP4 files
+│   ├─ drama1.mp4
+│   ├─ movie1.mp4
+│   └─ series1.mp4
+├─ server.py            # Optional FastAPI backend
+├─ bot.py               # Optional Telegram bot
+└─ requirements.txt     # Dependencies for backend
+
+index.html (YouTube-style Home Screen)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎬 Mini Movies Platform</title>
+<script src="ads_manager.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+#ad-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);color:white;display:none;justify-content:center;align-items:center;text-align:center;padding:20px;z-index:50;}
+</style>
+</head>
+<body class="bg-gray-100">
+
+<div class="max-w-xl mx-auto p-4">
+<h1 class="text-2xl font-bold mb-4">🎬 Mini Movies & Web Series</h1>
+
+<div id="video-list" class="grid grid-cols-2 gap-4 mb-4"></div>
+
+<div class="relative">
+<video id="myVideo" width="100%" controls class="rounded shadow">
+<source src="" type="video/mp4">
+</video>
+<div id="ad-overlay"></div>
+</div>
+
+<div id="ad-banner" class="mt-4"></div>
+<button onclick="playVideoWithAds()" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">▶ Play Video</button>
+</div>
+
+<script>
+let videos=[
+  { id:1, title:"Drama 1", file:"https://example.com/drama1.mp4", thumbnail:"https://example.com/drama1.jpg" },
+  { id:2, title:"Mini Movie 1", file:"https://example.com/movie1.mp4", thumbnail:"https://example.com/movie1.jpg" },
+  { id:3, title:"Web Series Ep 1", file:"https://example.com/series1.mp4", thumbnail:"https://example.com/series1.jpg" }
+];
+
+let midRolls = [600, 900]; // 10min, 15min in seconds
+let userProgress = 0;
+let videoListDiv = document.getElementById("video-list");
+let myVideo = document.getElementById("myVideo");
+
+function renderVideoList(){
+  videoListDiv.innerHTML="";
+  videos.forEach((vid)=>{
+    let div=document.createElement("div");
+    div.className="bg-white rounded shadow overflow-hidden cursor-pointer";
+    div.innerHTML=`<img src="${vid.thumbnail}" class="w-full h-32 object-cover"><p class="p-2 font-semibold">${vid.title}</p>`;
+    div.onclick=()=>playSelectedVideo(vid.file);
+    videoListDiv.appendChild(div);
+  });
+}
+
+function playSelectedVideo(file){
+  myVideo.src=file;
+  playVideoWithAds();
+  myVideo.onended=()=>{};
+}
+
+renderVideoList();
+</script>
+
+</body>
+</html>
+
+ads_manager.js (Pre-roll + Mid-roll Ads + Skip 25 sec)
+let adPlaying=false;
+let midRollsTimes=[600,900]; // 10 min, 15 min
+let skipTime=25;
+let video=document.getElementById("myVideo");
+let adContainer=document.getElementById("ad-overlay");
+
+video.addEventListener("timeupdate",()=>{
+    if(adPlaying) return;
+    midRollsTimes.forEach((time,index)=>{
+        if(video.currentTime>=time){
+            adPlaying=true;
+            video.pause();
+            showMidRollAd(()=>{
+                adPlaying=false;
+                video.play();
+                midRollsTimes.splice(index,1);
+            });
+        }
+    });
+});
+
+function showPreRollAd(callback){
+    adPlaying=true;
+    adContainer.style.display="flex";
+    adContainer.innerHTML="<p>Loading Pre-roll Ad...</p>";
+    setTimeout(()=>{
+        adContainer.style.display="none";
+        adPlaying=false;
+        callback();
+    },5000);
+}
+
+function showMidRollAd(callback){
+    adContainer.style.display="flex";
+    adContainer.innerHTML="<p>Mid-roll
+Ad</p>";
+    let skipBtn=document.createElement("button");
+    skipBtn.innerText=`Skip Ad in ${skipTime} sec`;
+    skipBtn.disabled=true;
+    adContainer.appendChild(skipBtn);
+    let countdown=skipTime;
+    let interval=setInterval(()=>{
+        countdown--;
+        skipBtn.innerText=countdown>0?`Skip Ad in ${countdown} sec`:"Skip Ad";
+        if(countdown<=0) skipBtn.disabled=false;
+    },1000);
+    skipBtn.onclick=()=>{
+        clearInterval(interval);
+        adContainer.style.display="none";
+        callback();
+    };
+    setTimeout(()=>{
+        clearInterval(interval);
+        adContainer.style.display="none";
+        callback();
+    },30000);
+}
+
+function loadBannerAd(){
+    let bannerDiv=document.getElementById("ad-banner");
+    if(bannerDiv) bannerDiv.innerHTML=`<script src="//www.profitablecpmrate.com/banner.js"></script>`;
+}
+
+function showPropellerPopunder(){
+    if(!window.popunderShown){
+        let popScript=document.createElement("script");
+        popScript.async=true;
+        popScr...
+chanel a vide ki jani korte bol cila agolo ki ad korao reiplide
+
+24 minutes ago
+
+Determined Telegram integration feasibility (4 seconds)
+আমি বুঝতে পারছি আপনি Telegram চ্যানেলের সাথে ইন্টিগ্রেশন চান। আপনি চাচ্ছেন:
+
+প্রাইভেট Telegram চ্যানেল থেকে ভিডিও ম্যানেজ করতে
+Ad সিস্টেমের সাথে Telegram সংযোগ করতে
+আমি দেখি কি Telegram ইন্টিগ্রেশন পাওয়া যায়:
+
+
+Searched Replit's integrations for "telegram bot"
+
+Planned custom Telegram bot integration
+কোন built-in Telegram ইন্টিগ্রেশন নেই, কিন্তু আমি আপনার জন্য একটি কাস্টম Telegram বট বানাতে পারি যা আপনার Mini Movies প্ল্যাটফর্মের সাথে কাজ করবে।
+
+আমি একটি Telegram বট স্ক্রিপ্ট তৈরি করব যা:
+
+প্রাইভেট চ্যানেল থেকে ভিডিও ম্যানেজ করবে
+Admin কমান্ড দিয়ে ভিডিও add/remove করবে
+Ad ম্যানেজমেন্ট করবে
+
+Planned bot platform integration
+এখন আমি Telegram Bot এর সাথে আপনার Mini Movies Platform এর ইন্টিগ্রেশন সম্পূর্ণ করব।
+
+
+Make Telegram bot for videos
+
+Connect bot to Mini Movies
+
+Asked for Telegram bot API keys
+আপনার Telegram Bot সেটআপ করার জন্য আমার কিছু API key প্রয়োজন:
+
+TELEGRAM_BOT_TOKEN: Telegram BotFather থেকে পাওয়া bot token
+ADMIN_CHAT_IDS: Admin user এর chat ID (comma separated, যেমন: 123456789,987654321)
+PRIVATE_CHANNEL_ID: আপনার private channel এর ID (optional)
+
+এই keys গুলো secure environment variables হিসেবে সংরক্ষণ করা হবে এবং বট চালানোর জন্য প্রয়োজন।
+
+Telegram Bot Token পেতে:
+
+@BotFather এ যান
+/newbot কমান্ড দিন
+Bot এর নাম দিন
+Token copy করুন
+Chat ID পেতে:
+
+@userinfobot এ যান
+/start দিন
+আপনার ID copy করুন
+3 secrets requested
+•
+ADMIN_CHAT_IDS
+PRIVATE_CHANNEL_ID
+TELEGRAM_BOT_TOKEN
+Would you like to save these Secrets to your Account Secrets so you can easily access them in other Apps?
+ADMIN_CHAT_IDS, PRIVATE_CHANNEL_ID, TELEGRAM_BOT_TOKEN
